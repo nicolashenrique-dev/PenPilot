@@ -1,0 +1,77 @@
+[
+  {
+    "title": "Começar com um alvo",
+    "body": "Abra Nova execução, informe uma URL, hostname ou IP e escolha o perfil. URLs preservam o caminho e a porta. O perfil Rápido reduz a coleta; Padrão inclui mais verificações. Em Escopo, inclua explicitamente hosts adicionais usados pela aplicação.",
+    "code": "penpilot web\npenpilot -h\npenpilot scan -h"
+  },
+  {
+    "title": "Onde ficam as saídas?",
+    "body": "O painel mostra o caminho em “Salvo em”. Por padrão: ~/PenPilot/execucoes, com uma pasta por execução. Ver relatório abre a versão legível; Baixar tudo reúne os arquivos. XML e logs são evidências técnicas. A execução pode ser parcial por orçamento, timeout ou dependência ausente.",
+    "code": ""
+  },
+  {
+    "title": "JavaScript e APIs",
+    "body": "Em Navegador e sessão web, ative Renderizar JavaScript. Inclua as origens adicionais dos recursos/APIs e seus hosts no escopo permitido. O navegador observa GET e preflight OPTIONS; bloqueia escritas e WebSockets. Não clica, envia formulários ou renova tokens. Aplicações dependentes dessas ações podem ficar parciais.",
+    "code": ""
+  },
+  {
+    "title": "Autenticação e sessão",
+    "body": "Informe a origem exata, com protocolo e porta, e o token Bearer ou Cookie da sua sessão. Eles só são enviados a essa origem. Para localStorage, importe JSON com storage e storage_origin. Credenciais ficam em memória e precisam ser fornecidas novamente após reiniciar. O perfil salvo não inclui a sessão. Um 403 pode indicar falta de permissão mesmo com login válido.",
+    "code": "{\n  \"origin\": \"https://api.lab.exemplo\",\n  \"token\": \"SEU_TOKEN\",\n  \"storage_origin\": \"https://lab.exemplo\",\n  \"storage\": {\"chave-da-aplicacao\": \"VALOR_DA_SESSAO\"}\n}"
+  },
+  {
+    "title": "Respostas genéricas e revisões",
+    "body": "A comparação com uma URL inexistente ajuda a reconhecer páginas iguais retornadas para vários caminhos. Isso não confirma que os caminhos existem. Revisões reúne evidência e próximo passo para TLS, cookies e cabeçalhos. Observações não são vulnerabilidades confirmadas.",
+    "code": ""
+  },
+  {
+    "title": "Mapa da aplicação",
+    "body": "Mapa distingue respostas coletadas de referências ainda não consultadas. Filtre por host ou URL e expanda as relações entre páginas, recursos e APIs. O mapa completo também está disponível em JSON.",
+    "code": ""
+  },
+  {
+    "title": "Comparar execuções",
+    "body": "Na aba Comparar, selecione uma execução anterior. Veja URLs novas, alteradas e não observadas nesta coleta. Não observada não significa removida: escopo, orçamento, sessão e perfil podem mudar a cobertura. Capturas da mesma URL aparecem lado a lado em Comparação visual, quando disponíveis; não há detecção automática por pixels.",
+    "code": "penpilot compare PASTA_ANTERIOR PASTA_ATUAL"
+  },
+  {
+    "title": "Levar resultados para o Burp",
+    "body": "Exportar para Burp baixa um ZIP com requisições HTTP reconstruídas, HAR e instruções. Abra um arquivo .http e copie a requisição para o Repeater, configurando o destino. Não há envio automático ao Burp. Cookies, tokens e valores de query são omitidos; adicione sua sessão localmente quando necessário.",
+    "code": "penpilot export PASTA_DA_EXECUCAO --burp"
+  },
+  {
+    "title": "Monitorar mudanças",
+    "body": "Em Monitorar, crie uma recorrência a partir de uma execução concluída e escolha o intervalo. Ela funciona enquanto penpilot web estiver rodando e registra mudanças ou falhas. O painel não agenda sessões autenticadas, pois não salva credenciais. Pelo CLI, watch aceita sessão em memória. Fechar o processo interrompe o monitoramento.",
+    "code": "penpilot watch PASTA_DA_EXECUCAO --interval 3600\npenpilot watch -h"
+  },
+  {
+    "title": "Resolver problemas",
+    "body": "Ferramentas e diagnóstico mostra dependências ausentes. Se a porta estiver ocupada, verifique o painel já aberto ou escolha outra porta. Para retomar, abra a execução e use Retomar; sessões podem precisar ser renovadas. Confira as tarefas com atenção para entender o que faltou coletar.",
+    "code": "penpilot web --port 8766\npenpilot resume -h"
+  },
+  {
+    "title": "Diagnóstico antes da coleta",
+    "body": "Verificar configuração consulta DNS, escopo, dependências locais e a validade declarada de um JWT. Não envia credenciais ao alvo. Verificar e iniciar faz essa checagem antes da coleta. O JWT é apenas lido, sem validação criptográfica; cookies e tokens opacos dependem das respostas da aplicação.",
+    "code": ""
+  },
+  {
+    "title": "Projetos e histórico",
+    "body": "Em Nova execução, salve um projeto para reutilizar alvos, escopo, exclusões e perfil sem credenciais. URLs com query não são salvas como projeto. No Histórico, busque por nome, alvo ou data e filtre por estado. Mais ações permite renomear e arquivar; o filtro Arquivadas permite restaurar. Arquivar não apaga arquivos nem pausa monitores.",
+    "code": ""
+  },
+  {
+    "title": "Importar do Burp ou cURL",
+    "body": "Em Navegador e sessão web, use Importar do Burp ou cURL. Cole uma requisição GET. A URL, Authorization Bearer e Cookie serão extraídos; outros cabeçalhos são ignorados. Para HTTP bruto, selecione o protocolo correto. O comando não é executado, arquivos não são lidos e requisições com corpo não são aceitas. Confira o escopo antes de iniciar.",
+    "code": ""
+  },
+  {
+    "title": "Rodar sem terminal aberto",
+    "body": "Linux com systemd: instale o serviço de usuário, encerre o painel manual na mesma porta e inicie o serviço. Ele mantém o painel e os monitores ativos enquanto a sessão do usuário estiver disponível. Não inicia no boot automaticamente e não ativa linger. O computador precisa permanecer ligado. Use a mesma pasta -o ao instalar e controlar o serviço. Status mostra falhas; stop encerra. Instalar não inicia nem habilita o serviço.",
+    "code": "penpilot service install\npenpilot service start\npenpilot service status\npenpilot service stop"
+  },
+  {
+    "title": "Agente, mitmproxy, Repeater e scanners",
+    "body": "A aba Agente importa HAR, JS, OpenAPI e resultados Nuclei; organiza registros por ID e permite triagem. O CLI captura tráfego com mitmproxy e executa Repeater/Nuclei/sqlmap com escopo e orçamento. Sem --execute, Repeater e scanners apenas mostram o plano. O contexto usa orçamento de caracteres, não tokens exatos. Handoff fica em intel/; resultados de ferramentas precisam de reprodução.",
+    "code": "penpilot agent -h\npenpilot capture -h\npenpilot repeater -h\npenpilot tools -h\npenpilot agent context PASTA --budget 12000\npenpilot agent report PASTA"
+  }
+]

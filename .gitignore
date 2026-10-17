@@ -1,0 +1,21 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+labs/
+.test-output/
+
+# Local sessions, captures and generated results
+.env
+.env.*
+*.pem
+*.key
+*.har
+*.mitm
+execucoes/
+runs/
+intel/
+# Local screenshots can contain personal or target data
+docs/*.png
+docs/*.jpg

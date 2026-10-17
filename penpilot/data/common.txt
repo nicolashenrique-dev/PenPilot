@@ -1,0 +1,13 @@
+admin/
+api/
+assets/
+backup/
+css/
+docs/
+images/
+js/
+login
+robots.txt
+sitemap.xml
+uploads/
+.well-known/security.txt

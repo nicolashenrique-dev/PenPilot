@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "penpilot"
+version = "0.1.0"
+description = "Reconhecimento local e evidências para labs autorizados"
+requires-python = ">=3.11"
+dependencies = ["fastapi>=0.115,<1", "uvicorn>=0.30,<1", "httpx>=0.27,<1"]
+
+[project.optional-dependencies]
+analysis = ["PyYAML>=6,<7"]
+screenshots = ["playwright>=1.48,<2"]
+test = ["pytest>=8,<10"]
+
+[project.scripts]
+penpilot = "penpilot.cli:main"
+
+[tool.setuptools.package-data]
+penpilot = ["static/*", "data/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.setuptools.packages.find]
+include = ["penpilot", "penpilot.*"]
+exclude = ["labs*", "tests*", "docs*", "scripts*"]
