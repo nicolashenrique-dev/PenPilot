@@ -2,33 +2,60 @@
 
 Ferramenta local de reconhecimento para labs autorizados. Funciona pelo terminal ou pelo painel em **http://127.0.0.1:8765**. Resultados ficam em arquivos na pasta escolhida por você.
 
+![Painel inicial do PenPilot com acesso à nova execução, histórico e ajuda](docs/assets/painel-inicial.png)
+
+*Captura real de uma instância local vazia. Nenhum dado de alvo ou credencial incluído.*
+
+```mermaid
+flowchart LR
+    A[Alvos e escopo autorizado] --> B[Descoberta de serviços]
+    B --> C[Coleta por protocolo]
+    C --> D[Evidências locais]
+    D --> E[Revisão no painel ou CLI]
+    E --> F[Relatórios e exportação]
+```
+
+## Começar a partir do GitHub
+
+Requisitos: Linux/Kali e Python 3.11+ com suporte a `venv`.
+
+```bash
+git clone https://github.com/nicolashenrique-dev/PenPilot.git
+cd PenPilot
+bash install.sh
+./penpilot.sh doctor
+./penpilot.sh web
+```
+
+O instalador baixa dependências, cria o comando em `~/.local/bin` e ajusta o PATH dos shells compatíveis. Nmap e as ferramentas opcionais são instalados separadamente; veja [instalar em outra máquina](#instalar-em-outra-máquina). Use somente alvos para os quais você tem autorização. Mantenha o painel em loopback: ele não foi projetado para exposição pública ou múltiplos usuários.
+
 ## Investigação assistida por agente
 
 Captura mitmproxy, Repeater CLI, Nuclei/sqlmap com limites, análise de JS/OpenAPI e contexto paginado: veja o [guia do agente](docs/AGENT_WORKFLOW.md). No painel, abra uma execução e selecione **Agente**.
 
-## Usar nesta máquina, de qualquer pasta
+## Usar de qualquer pasta
 
 O arquivo de entrada é **`penpilot.sh`**. Ele encontra o código e o ambiente virtual pela localização da instalação, sem mudar a pasta atual do seu terminal.
 
 ```bash
 # Ajuda geral
-"/home/nicolas/Área de trabalho/PenPilot/penpilot.sh" -h
+"/caminho/PenPilot/penpilot.sh" -h
 
 # Ajuda de um comando
-"/home/nicolas/Área de trabalho/PenPilot/penpilot.sh" scan -h
+"/caminho/PenPilot/penpilot.sh" scan -h
 
 # Abrir o painel, guardando resultados na sua pasta Labs
-"/home/nicolas/Área de trabalho/PenPilot/penpilot.sh" web -o "$HOME/Labs"
+"/caminho/PenPilot/penpilot.sh" web -o "$HOME/Labs"
 ```
 
-Não é preciso executar `cd` para o projeto nem ativar `.venv`. O launcher usa a `.venv` que já existe nesta máquina. Mantenha `penpilot.sh` junto do pacote `penpilot/`; ele é um arquivo de entrada, **não um executável independente que pode ser copiado sozinho**. Pode criar um link simbólico para ele.
+Substitua `/caminho/PenPilot` pela pasta onde você clonou o projeto. Após a instalação, não é preciso executar `cd` para o projeto nem ativar `.venv`. O launcher usa a `.venv` da instalação. Mantenha `penpilot.sh` junto do pacote `penpilot/`; ele é um arquivo de entrada, **não um executável independente que pode ser copiado sozinho**. Pode criar um link simbólico para ele.
 
 ## Instalar o comando `penpilot`
 
 Execute uma vez, de qualquer diretório:
 
 ```bash
-bash "/home/nicolas/Área de trabalho/PenPilot/install.sh"
+bash "/caminho/PenPilot/install.sh"
 ```
 
 O instalador usa `.venv` no projeto e cria `~/.local/bin/penpilot`. Não exige sudo e configura o PATH em `~/.bashrc` e em `~/.zshrc`, se presente. Abra um novo terminal após instalar. Depois:

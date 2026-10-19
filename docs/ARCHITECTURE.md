@@ -47,7 +47,9 @@ Checkpoints JSON usam arquivo temporário no mesmo filesystem, `fsync` e `os.rep
 
 ## Fronteiras de rede
 
-HTTP usa conexão para IP fixado com Host/SNI do nome original, sem proxy do ambiente nem redirects automáticos. Crawler visita só a mesma origem (esquema, host e porta); outras origens ficam como pistas. Assim um link não confirma protocolo de outra porta. Screenshots têm JS/service workers bloqueados, interceptam todas as requisições e passam pelo mesmo fetch. Cabeçalhos de cookies não são reaplicados, e não há sessão HTTP autenticada nesta versão.
+HTTP usa conexão para IP fixado com Host/SNI do nome original, sem proxy do ambiente nem redirects automáticos do cliente HTTP. O coletor acompanha até cinco redirecionamentos validados: mesma origem ou HTTP/80 → HTTPS/443 do mesmo host. Crawler visita só a mesma origem (esquema, host e porta); outras origens ficam como pistas. Assim um link não confirma protocolo de outra porta.
+
+Por padrão, screenshots bloqueiam JavaScript; `render_js` habilita renderização com requisições interceptadas, origens explícitas e bloqueio de escritas. Service workers permanecem bloqueados. Sessões Bearer, Cookie e localStorage são fornecidas em memória; cabeçalhos de autenticação ficam restritos à origem configurada. Cookies recebidos do alvo não são reaplicados automaticamente. Consulte [automação web](WEB_AUTOMATION.md) para os limites e a separação entre origem da página e da API.
 
 FTP passivo conecta ao IP do canal de controle. AUTH TLS é negociado antes de credenciais quando anunciado; FTPS implícito começa em TLS. Diretório inicial é somente listado. SMB autenticação fica em arquivo temporário 0600 fora da pasta de evidência e é removida em `finally`.
 

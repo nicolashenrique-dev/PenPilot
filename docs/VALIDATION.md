@@ -1,5 +1,16 @@
 # Validação da versão 0.1.0
 
+## Reconferência — 19/10/2026
+
+- Revisão do código no commit `7e0a001`; ambiente local existente.
+- `.venv/bin/python -m pytest -q`: **112 testes passaram em 126,58 s**.
+- `node --check penpilot/static/app.js`, `bash -n install.sh penpilot.sh` e `git diff --check`: passaram.
+- Painel iniciado com histórico vazio em diretório temporário e porta local separada. Abertura do formulário e prévia de limites verificadas, sem iniciar coleta pela interface; console sem avisos ou erros nesse fluxo.
+- README atualizado com captura dessa instância vazia em `assets/painel-inicial.png`, fluxo Mermaid e instruções de clone. Links locais do README e da arquitetura verificados.
+- O resultado da suíte não constitui auditoria completa nem garante ausência de falhas. Não houve teste de alvos externos ou ativação de serviço systemd nesta reconferência.
+
+As seções abaixo registram validações históricas; versões, contagens e imagens citadas nelas correspondem às respectivas rodadas.
+
 ## Ambiente utilizado
 
 Linux/Kali, Python 3.14.7; Nmap 7.99, ffuf 2.1.0-dev, smbclient 4.24.6, Playwright 1.63.0 com Chromium local. Versões de cada execução estão no manifesto. Foram consultadas as opções efetivamente instaladas antes de construir os comandos.
